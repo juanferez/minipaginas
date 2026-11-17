@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>La aventura de los números: m.c.m. y m.c.d.</title>
+<style>
+:root{--bg:#fff8e7;--card:#fff;--ink:#2b2d42;--a:#4cc9f0;--b:#f72585;--gold:#ffbe0b;--ok:#38b000;--bad:#e5383b;--dim:#eee8d5;--line:#ffe0a3;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#1d1b2e;--card:#2a2745;--ink:#f4f1ff;--dim:#3a3660;--line:#4a4580}}
+*{box-sizing:border-box}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"Comic Sans MS","Chalkboard SE","Trebuchet MS",Verdana,sans-serif;font-size:18px;line-height:1.55}
+.wrap{max-width:820px;margin:0 auto;padding:16px}
+h1{font-size:1.9rem;text-align:center;margin:6px 0}
+h2{margin:.2em 0}h3{margin:.8em 0 .2em}
+.hero{text-align:center;font-size:3rem}
+nav,.sub{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin:12px 0}
+nav button,.sub button,.btn{font:inherit;border:3px solid var(--ink);background:var(--card);color:var(--ink);border-radius:999px;padding:8px 16px;cursor:pointer;font-weight:bold}
+.sub button{font-size:.95rem;padding:6px 14px}
+nav button.on,.sub button.on,.btn.main{background:var(--gold);color:#2b2d42}
+.card{background:var(--card);border:3px dashed var(--line);border-radius:22px;padding:16px;margin:14px 0}
+.ex{border-left:10px solid var(--a)}.ex.p{border-left-color:var(--b)}
+.big{font-size:2rem;letter-spacing:2px;word-break:break-word}
+.row{display:flex;gap:12px;flex-wrap:wrap;align-items:center;justify-content:center}
+select{font:inherit;font-size:1.2rem;padding:4px 8px;border-radius:12px;border:3px solid var(--ink);background:var(--card);color:var(--ink)}
+.chips{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;margin:10px 0}
+.chip{min-width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:var(--dim);color:var(--ink);font-weight:bold;font-size:.95rem;border:2px solid transparent;padding:0 4px}
+.chip.a{background:var(--a);color:#032b3a}.chip.b{background:var(--b);color:#fff}
+.chip.both{background:var(--gold);color:#2b2d42;border-color:var(--ink);transform:scale(1.12)}
+.chip.first{box-shadow:0 0 0 4px var(--ok)}
+.legend{display:flex;gap:12px;flex-wrap:wrap;justify-content:center;font-size:.9rem}
+.dot{display:inline-block;width:16px;height:16px;border-radius:50%;vertical-align:middle;margin-right:4px}
+.tip{background:var(--gold);color:#2b2d42;border-radius:16px;padding:10px 14px;margin:10px 0}
+.result{font-size:1.2rem;text-align:center;margin:8px 0}
+.opt{display:block;width:100%;margin:8px 0;font:inherit;font-size:1.3rem;text-align:left;border:3px solid var(--ink);background:var(--card);color:var(--ink);border-radius:16px;padding:10px 14px;cursor:pointer}
+.opt.ok{background:var(--ok);color:#fff}.opt.bad{background:var(--bad);color:#fff}
+.bar{height:16px;background:var(--dim);border-radius:99px;overflow:hidden}.bar i{display:block;height:100%;background:var(--ok);width:0;transition:width .3s}
+.fb{margin:10px 0;font-weight:bold}
+.hide{display:none}
+b.m{background:var(--gold);color:#2b2d42;border-radius:8px;padding:0 6px}
+svg{max-width:100%;height:auto}
+</style>
+</head>
+<body>
+<div class="wrap">
+<div class="hero">🦊🔢🐸</div>
+<h1>La aventura de los números</h1>
+<nav>
+<button class="on" data-t="mcm">🐸 m.c.m.</button>
+<button data-t="mcd">🍪 m.c.d.</button>
+<button data-t="fin">🏆 Prueba final</button>
+</nav>
+
+<!-- ============ M.C.M. ============ -->
+<section id="mcm">
+<div class="sub"><button class="on" data-n="1">1️⃣ Explicación</button><button data-n="2">2️⃣ Ejemplos</button><button data-n="3">3️⃣ Ejercicios</button></div>
+
+<div id="mcm-1">
+<div class="card">
+<h2>Primero: ¿qué es un múltiplo?</h2>
+<p>Los <b>múltiplos</b> de un número son los resultados de su <b>tabla de multiplicar</b>.</p>
+<div class="tip">Múltiplos de 3 → 3×1=<b>3</b>, 3×2=<b>6</b>, 3×3=<b>9</b>, 3×4=<b>12</b>, 3×5=<b>15</b>…</div>
+<p>Se pueden seguir para siempre. Fíjate: ¡se puede <b>contar de 3 en 3</b>! 🐸 3, 6, 9, 12, 15…</p>
+</div>
+<div class="card">
+<h2>Después: múltiplos comunes</h2>
+<p>Una <b>rana azul</b> salta de <b>2 en 2</b> y una <b>rana rosa</b> de <b>3 en 3</b>. Las dos empiezan en 0.</p>
+<svg viewBox="0 0 560 130" role="img" aria-label="Dos ranas saltando por una recta numérica">
+<line x1="20" y1="100" x2="540" y2="100" stroke="currentColor" stroke-width="4" stroke-linecap="round"/>
+<g font-size="16" text-anchor="middle" fill="currentColor"><text x="40" y="124">0</text><text x="120" y="124">2</text><text x="160" y="124">3</text><text x="200" y="124">4</text><text x="280" y="124">6</text><text x="360" y="124">8</text><text x="400" y="124">9</text><text x="440" y="124">10</text><text x="520" y="124">12</text></g>
+<path d="M40 95 Q80 40 120 95 M120 95 Q160 40 200 95 M200 95 Q240 40 280 95" fill="none" stroke="#4cc9f0" stroke-width="4" stroke-dasharray="6 5"/>
+<path d="M40 95 Q100 10 160 95 M160 95 Q220 10 280 95" fill="none" stroke="#f72585" stroke-width="4" stroke-dasharray="6 5"/>
+<text x="280" y="50" font-size="36" text-anchor="middle">🐸</text>
+<circle cx="280" cy="100" r="9" fill="#ffbe0b" stroke="currentColor" stroke-width="2"/>
+</svg>
+<p>La azul pisa: 2, 4, <b>6</b>, 8, 10, <b>12</b>… La rosa pisa: 3, <b>6</b>, 9, <b>12</b>…<br>Las dos pisan el <b>6</b> y el <b>12</b>. Son los <b>múltiplos comunes</b> de 2 y 3.</p>
+</div>
+<div class="card">
+<h2>Por último: el mínimo común múltiplo</h2>
+<p>De todos los múltiplos comunes (6, 12, 18…), nos quedamos con el <b>más pequeño</b>. Ese es el <b>m.c.m.</b></p>
+<div class="tip">m.c.m.(2, 3) = <b>6</b> &nbsp;→ &nbsp;¡el primer sitio donde se encuentran las dos ranas!</div>
+<h3>📋 Receta para calcularlo</h3>
+<ol><li>Escribe los múltiplos del primer número.</li><li>Escribe los múltiplos del segundo.</li><li>Busca el <b>primero que se repite</b>. ¡Ese es el m.c.m.!</li></ol>
+</div>
+<div class="card">
+<h2>🎮 Pruébalo tú</h2>
+<div class="row">🔵 salta de <select id="ma"></select> en <span id="ma2"></span> &nbsp; 🔴 salta de <select id="mb"></select> en <span id="mb2"></span></div>
+<div class="chips" id="mchips"></div>
+<div class="legend"><span><i class="dot" style="background:var(--a)"></i>múltiplos del primero</span><span><i class="dot" style="background:var(--b)"></i>del segundo</span><span><i class="dot" style="background:var(--gold)"></i>🐸 ¡caen juntas!</span></div>
+<div class="result" id="mres"></div>
+<div class="row"><button class="btn main" data-go="mcm-2">Ver ejemplos ➜</button></div>
+</div>
+</div>
+
+<div id="mcm-2" class="hide">
+<div class="card ex"><h2>Ejemplo 1: m.c.m.(4, 6)</h2>
+<p>Múltiplos de 4: 4, 8, <b class="m">12</b>, 16, 20, 24<br>Múltiplos de 6: 6, <b class="m">12</b>, 18, 24</p>
+<p>El primero que se repite es el 12. ✅ <b>m.c.m.(4, 6) = 12</b></p></div>
+<div class="card ex"><h2>Ejemplo 2: m.c.m.(3, 5)</h2>
+<p>Múltiplos de 3: 3, 6, 9, 12, <b class="m">15</b><br>Múltiplos de 5: 5, 10, <b class="m">15</b></p>
+<p>✅ <b>m.c.m.(3, 5) = 15</b></p>
+<div class="tip">💡 Truco: si los números no tienen nada en común (como 3 y 5), el m.c.m. es <b>multiplicarlos</b>: 3 × 5 = 15.</div></div>
+<div class="card ex"><h2>Ejemplo 3: m.c.m.(3, 9)</h2>
+<p>Múltiplos de 3: 3, 6, <b class="m">9</b><br>Múltiplos de 9: <b class="m">9</b>, 18</p>
+<p>✅ <b>m.c.m.(3, 9) = 9</b></p>
+<div class="tip">💡 Truco: si un número es múltiplo del otro (9 está en la tabla del 3), el m.c.m. es <b>el más grande</b>.</div></div>
+<div class="card ex p"><h2>Ejemplo 4: el problema de los autobuses 🚌</h2>
+<p>Un autobús rojo pasa cada <b>10</b> minutos y uno azul cada <b>15</b>. Salen juntos a las 8:00. ¿Cuándo vuelven a coincidir?</p>
+<p>Rojo: 10, 20, <b class="m">30</b>, 40<br>Azul: 15, <b class="m">30</b>, 45</p>
+<p>✅ m.c.m.(10, 15) = 30 → coinciden otra vez a las <b>8:30</b>.</p>
+<div class="tip">💡 Cuando en un problema algo <b>se repite cada cierto tiempo y quieres saber cuándo coincide</b>, ¡es un m.c.m.!</div></div>
+<div class="row"><button class="btn main" data-go="mcm-3">Hacer ejercicios ➜</button></div>
+</div>
+
+<div id="mcm-3" class="hide"><div class="card"><div class="bar"><i id="bar-mcm"></i></div><div id="box-mcm"></div></div></div>
+</section>
+
+<!-- ============ M.C.D. ============ -->
+<section id="mcd" class="hide">
+<div class="sub"><button class="on" data-n="1">1️⃣ Explicación</button><button data-n="2">2️⃣ Ejemplos</button><button data-n="3">3️⃣ Ejercicios</button></div>
+
+<div id="mcd-1">
+<div class="card">
+<h2>Primero: ¿qué es un divisor?</h2>
+<p>Un <b>divisor</b> de un número es otro número que lo divide <b>de forma exacta</b>, sin que sobre nada.</p>
+<div class="tip">12 ÷ 3 = 4 y no sobra nada → 3 es divisor de 12.<br>12 ÷ 5 = 2 y sobran 2 → 5 <b>no</b> es divisor de 12.</div>
+<p>Divisores de 12: <b>1, 2, 3, 4, 6, 12</b>. 🍪 Si repartes 12 galletas en bolsas iguales, esas son las cantidades de bolsas posibles.</p>
+<p>Truco: ¡el 1 y el propio número siempre son divisores!</p>
+</div>
+<div class="card">
+<h2>Después: divisores comunes</h2>
+<p>Tienes <b>12 galletas</b> y <b>18 caramelos</b>. Quieres bolsas <b>todas iguales</b>, sin que sobre nada.</p>
+<div class="big">🍪🍪🍪🍪🍪🍪🍪🍪🍪🍪🍪🍪</div>
+<div class="big">🍬🍬🍬🍬🍬🍬🍬🍬🍬🍬🍬🍬🍬🍬🍬🍬🍬🍬</div>
+<p>Divisores de 12: 1, 2, 3, 4, <b>6</b>, 12<br>Divisores de 18: 1, 2, 3, <b>6</b>, 9, 18<br>Los que están en las dos listas son <b>1, 2, 3 y 6</b>: los <b>divisores comunes</b>.</p>
+</div>
+<div class="card">
+<h2>Por último: el máximo común divisor</h2>
+<p>De los divisores comunes nos quedamos con el <b>más grande</b>. Ese es el <b>m.c.d.</b></p>
+<div class="tip">m.c.d.(12, 18) = <b>6</b> → 6 bolsas 🛍️, cada una con 2 galletas y 3 caramelos.</div>
+<h3>📋 Receta para calcularlo</h3>
+<ol><li>Escribe los divisores del primer número.</li><li>Escribe los divisores del segundo.</li><li>Busca los que se repiten y elige el <b>más grande</b>.</li></ol>
+</div>
+<div class="card">
+<h2>🎮 Pruébalo tú</h2>
+<div class="row">Primer número <select id="da"></select> Segundo número <select id="db"></select></div>
+<div class="chips" id="dchips"></div>
+<div class="legend"><span><i class="dot" style="background:var(--a)"></i>del primero</span><span><i class="dot" style="background:var(--b)"></i>del segundo</span><span><i class="dot" style="background:var(--gold)"></i>comunes</span></div>
+<div class="result" id="dres"></div>
+<div class="row"><button class="btn main" data-go="mcd-2">Ver ejemplos ➜</button></div>
+</div>
+</div>
+
+<div id="mcd-2" class="hide">
+<div class="card ex"><h2>Ejemplo 1: m.c.d.(12, 18)</h2>
+<p>Divisores de 12: 1, 2, 3, 4, <b class="m">6</b>, 12<br>Divisores de 18: 1, 2, 3, <b class="m">6</b>, 9, 18</p>
+<p>Comunes: 1, 2, 3, 6. El más grande es 6. ✅ <b>m.c.d.(12, 18) = 6</b></p></div>
+<div class="card ex"><h2>Ejemplo 2: m.c.d.(8, 20)</h2>
+<p>Divisores de 8: 1, 2, <b class="m">4</b>, 8<br>Divisores de 20: 1, 2, <b class="m">4</b>, 5, 10, 20</p>
+<p>✅ <b>m.c.d.(8, 20) = 4</b></p></div>
+<div class="card ex"><h2>Ejemplo 3: m.c.d.(7, 14)</h2>
+<p>Divisores de 7: 1, <b class="m">7</b><br>Divisores de 14: 1, 2, <b class="m">7</b>, 14</p>
+<p>✅ <b>m.c.d.(7, 14) = 7</b></p>
+<div class="tip">💡 Truco: si el número pequeño divide al grande, el m.c.d. es <b>el pequeño</b>.</div></div>
+<div class="card ex"><h2>Ejemplo 4: m.c.d.(9, 10)</h2>
+<p>Divisores de 9: <b class="m">1</b>, 3, 9<br>Divisores de 10: <b class="m">1</b>, 2, 5, 10</p>
+<p>✅ <b>m.c.d.(9, 10) = 1</b></p>
+<div class="tip">💡 Si solo comparten el 1, el m.c.d. es 1. ¡Nunca es 0!</div></div>
+<div class="card ex p"><h2>Ejemplo 5: el problema de las bolsas 🛍️</h2>
+<p>Tengo <b>24</b> chocolates y <b>36</b> pegatinas. Quiero hacer el <b>mayor número de bolsas iguales</b> sin que sobre nada. ¿Cuántas bolsas salen y qué lleva cada una?</p>
+<p>Divisores de 24: 1, 2, 3, 4, 6, 8, <b class="m">12</b>, 24<br>Divisores de 36: 1, 2, 3, 4, 6, 9, <b class="m">12</b>, 18, 36</p>
+<p>✅ m.c.d.(24, 36) = 12 → <b>12 bolsas</b>, cada una con 24÷12 = <b>2 chocolates</b> y 36÷12 = <b>3 pegatinas</b>.</p>
+<div class="tip">💡 Cuando en un problema hay que <b>repartir o cortar en trozos iguales sin que sobre nada</b> y lo más grande posible, ¡es un m.c.d.!</div></div>
+<div class="row"><button class="btn main" data-go="mcd-3">Hacer ejercicios ➜</button></div>
+</div>
+
+<div id="mcd-3" class="hide"><div class="card"><div class="bar"><i id="bar-mcd"></i></div><div id="box-mcd"></div></div></div>
+</section>
+
+<!-- ============ PRUEBA FINAL ============ -->
+<section id="fin" class="hide">
+<div class="card"><h2>🏆 Prueba final</h2><p>10 preguntas mezcladas de m.c.m. y m.c.d. ¡Tú puedes!</p>
+<div class="bar"><i id="bar-fin"></i></div><div id="box-fin"></div></div>
+</section>
+</div>
+
+<script>
+const $=id=>document.getElementById(id);
+const gcd=(a,b)=>b?gcd(b,a%b):a, lcm=(a,b)=>a/gcd(a,b)*b;
+const rnd=a=>a[Math.floor(Math.random()*a.length)];
+const shuffle=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a};
+const divs=n=>{const r=[];for(let i=1;i<=n;i++)if(n%i===0)r.push(i);return r};
+const mults=(n,k=4)=>Array.from({length:k},(_,i)=>n*(i+1));
+
+// Navegación
+function showSub(sec,n){
+  document.querySelectorAll('#'+sec+' .sub button').forEach(b=>b.classList.toggle('on',b.dataset.n==n));
+  [1,2,3].forEach(i=>$(sec+'-'+i).classList.toggle('hide',i!=n));
+  if(n==3&&!started[sec]){started[sec]=1;quizzes[sec]()}
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+document.querySelectorAll('nav button').forEach(b=>b.onclick=()=>{
+  document.querySelectorAll('nav button').forEach(x=>x.classList.toggle('on',x===b));
+  ['mcm','mcd','fin'].forEach(t=>$(t).classList.toggle('hide',t!==b.dataset.t));
+  if(b.dataset.t==='fin'&&!started.fin){started.fin=1;quizzes.fin()}
+});
+['mcm','mcd'].forEach(s=>document.querySelectorAll('#'+s+' .sub button').forEach(b=>b.onclick=()=>showSub(s,b.dataset.n)));
+document.querySelectorAll('[data-go]').forEach(b=>b.onclick=()=>{const [s,n]=b.dataset.go.split('-');showSub(s,n)});
+
+// Exploradores
+function fill(sel,from,to,val){for(let i=from;i<=to;i++){const o=document.createElement('option');o.value=i;o.textContent=i;sel.appendChild(o)}sel.value=val}
+fill($('ma'),2,10,2);fill($('mb'),2,10,3);fill($('da'),2,36,12);fill($('db'),2,36,18);
+function drawM(){
+  const a=+$('ma').value,b=+$('mb').value,L=lcm(a,b);
+  $('ma2').textContent=a;$('mb2').textContent=b;
+  let h='';
+  for(let n=1;n<=L;n++){const ia=n%a===0,ib=n%b===0;
+    h+=`<div class="chip ${ia&&ib?'both':ia?'a':ib?'b':''} ${n===L?'first':''}">${ia&&ib?'🐸':n}</div>`}
+  $('mchips').innerHTML=h;
+  $('mres').innerHTML=`Caen juntas por primera vez en el <b>${L}</b> 🎉<br>m.c.m.(${a}, ${b}) = <b>${L}</b>`;
+}
+function drawD(){
+  const a=+$('da').value,b=+$('db').value,g=gcd(a,b);
+  let h='';
+  [...new Set([...divs(a),...divs(b)])].sort((x,y)=>x-y).forEach(n=>{const ia=a%n===0,ib=b%n===0;
+    h+=`<div class="chip ${ia&&ib?'both':ia?'a':'b'} ${n===g?'first':''}">${n}</div>`});
+  $('dchips').innerHTML=h;
+  $('dres').innerHTML=`El mayor divisor común es el <b>${g}</b> 🎉<br>m.c.d.(${a}, ${b}) = <b>${g}</b>`+(g===1?'<br>(¡Solo comparten el 1!)':'');
+}
+['ma','mb'].forEach(i=>$(i).onchange=drawM);['da','db'].forEach(i=>$(i).onchange=drawD);drawM();drawD();
+
+// Preguntas
+function pickOpts(ans,pool){
+  const arr=shuffle([...new Set(pool.filter(x=>x>0&&x!==ans))]).slice(0,3);
+  for(let k=1;arr.length<3;k++)if(!arr.includes(ans+k))arr.push(ans+k);
+  return shuffle([ans,...arr]);
+}
+const MP=[[2,3],[4,6],[3,5],[6,8],[4,10],[5,6],[3,4],[2,5],[6,9],[4,5],[3,9],[10,15],[8,12]];
+const DP=[[12,18],[8,12],[10,15],[16,24],[20,30],[9,12],[14,21],[18,27],[12,16],[15,25],[24,36],[6,9],[8,20],[7,14]];
+function makeQ(type,story){
+  if(type==='mcm'){
+    const [a,b]=rnd(MP),L=lcm(a,b);
+    return{type:'m.c.m.',t:story?`🐸 Una rana salta de ${a} en ${a} y otra de ${b} en ${b}, empezando en 0. ¿En qué número caen juntas por primera vez?`:`¿Cuál es el m.c.m. de ${a} y ${b}?`,
+      ans:L,opts:pickOpts(L,[a*b,a+b,gcd(a,b),L*2,Math.max(a,b),L+a]),
+      hint:`Múltiplos de ${a}: ${mults(a).join(', ')}… Múltiplos de ${b}: ${mults(b).join(', ')}… Sigue hasta que uno se repita: ${L}.`};
+  }
+  const [a,b]=rnd(DP),g=gcd(a,b);
+  return{type:'m.c.d.',t:story?`🍪 Tienes ${a} galletas y ${b} caramelos. Quieres hacer bolsas iguales sin que sobre nada. ¿Cuál es el mayor número de bolsas que puedes hacer?`:`¿Cuál es el m.c.d. de ${a} y ${b}?`,
+    ans:g,opts:pickOpts(g,[lcm(a,b),Math.abs(a-b),Math.min(a,b),g*2,g+1,g+2,1]),
+    hint:`Divisores de ${a}: ${divs(a).join(', ')}. Divisores de ${b}: ${divs(b).join(', ')}. El mayor de los repetidos es ${g}.`};
+}
+const gen={
+  mcm:()=>[0,0,0,1,1].map(s=>makeQ('mcm',s)),
+  mcd:()=>[0,0,0,1,1].map(s=>makeQ('mcd',s)),
+  fin:()=>shuffle([0,0,0,1,1].map(s=>makeQ('mcm',s)).concat([0,0,0,1,1].map(s=>makeQ('mcd',s))))
+};
+
+// Motor de pruebas
+function Quiz(name){
+  const box=$('box-'+name),bar=$('bar-'+name);
+  let qs,qi,score;
+  function start(){qs=gen[name]();qi=0;score=0;show()}
+  function show(){
+    bar.style.width=(qi/qs.length*100)+'%';
+    if(qi>=qs.length){
+      const st=score>=qs.length*.9?'🏆':score>=qs.length*.7?'🌟':score>=qs.length*.5?'👍':'💪';
+      const msg=score>=qs.length*.9?'¡Eres una campeona de los números!':score>=qs.length*.7?'¡Muy bien! Casi lo tienes todo.':score>=qs.length*.5?'Vas bien. Repasa los ejemplos y vuelve a intentarlo.':'¡Ánimo! Repasa la explicación y los ejemplos, y repite la prueba.';
+      box.innerHTML=`<div class="hero">${st}</div><h2 style="text-align:center">${score} de ${qs.length}</h2><p style="text-align:center">${'⭐'.repeat(score)}</p><p style="text-align:center">${msg}</p><div class="row"><button class="btn main" id="r-${name}">🔁 Otra tanda nueva</button></div>`;
+      $('r-'+name).onclick=start;return;
+    }
+    const q=qs[qi];
+    box.innerHTML=`<p><b>Pregunta ${qi+1} de ${qs.length}</b> · ${q.type}</p><p style="font-size:1.25rem">${q.t}</p>`+
+      q.opts.map(o=>`<button class="opt" data-v="${o}">${o}</button>`).join('')+
+      `<div class="fb"></div><div class="row"><button class="btn h">💡 Pista</button><button class="btn main n hide">Siguiente ➜</button></div>`;
+    const fb=box.querySelector('.fb'),nx=box.querySelector('.n'),hb=box.querySelector('.h');let done=false;
+    hb.onclick=()=>{if(!done)fb.textContent='💡 '+q.hint};
+    box.querySelectorAll('.opt').forEach(b=>b.onclick=()=>{
+      if(done)return;done=true;const ok=+b.dataset.v===q.ans;if(ok)score++;
+      box.querySelectorAll('.opt').forEach(x=>{if(+x.dataset.v===q.ans)x.classList.add('ok')});
+      if(!ok)b.classList.add('bad');
+      fb.textContent=ok?rnd(['🎉 ¡Correcto!','⭐ ¡Genial!','👏 ¡Muy bien!']):'😅 Casi. La respuesta era '+q.ans+'. '+q.hint;
+      nx.classList.remove('hide');hb.classList.add('hide');
+    });
+    nx.onclick=()=>{qi++;show()};
+  }
+  return start;
+}
+const started={},quizzes={mcm:Quiz('mcm'),mcd:Quiz('mcd'),fin:Quiz('fin')};
+</script>
+</body>
+</html>

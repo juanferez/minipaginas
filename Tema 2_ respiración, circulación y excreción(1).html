@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Tema 2: respiración, circulación y excreción</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;700;800&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#fff3f8;--surf:#fff;--ink:#4a3f6b;--mut:#7a6f99;--blue:#8ec9f2;--red:#ff8fa8;--pink:#ffd1dc;--sun:#ffe08a;--ok:#9be3b5;--bad:#ffb3b3;--line:#f0d9ea;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0f1c2c;--surf:#182a40;--ink:#e8f1fa;--mut:#9db3cb;--blue:#7fa8ee;--red:#ff6b7f;--pink:#7a3b4b;--ok:#4fd296;--bad:#ff6b7f;--line:#2c4562;color-scheme:dark}}
+html{scroll-behavior:smooth;scroll-padding-top:calc(env(safe-area-inset-top,0px) + 64px)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:Nunito,system-ui,Arial,sans-serif;font-size:20px;line-height:1.6;background-image:radial-gradient(circle at 10% 8%,#ffe9f1 0,transparent 30%),radial-gradient(circle at 92% 20%,#e3f3ff 0,transparent 32%);background-attachment:fixed}
+h1,h2,h3{font-family:'Baloo 2',system-ui,sans-serif;line-height:1.15;margin:0 0 .5em}
+nav{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--surf);border-bottom:2px solid var(--line);display:flex;gap:6px;overflow-x:auto;padding:10px 14px;white-space:nowrap}
+nav a{color:var(--ink);text-decoration:none;font-weight:700;font-size:15px;padding:6px 12px;border-radius:99px;background:var(--bg)}
+nav a:hover,nav a:focus-visible{outline:3px solid var(--sun)}
+header{max-width:760px;margin:0 auto;padding:36px 18px 10px}
+header h1{font-size:clamp(34px,8vw,56px);font-weight:800}
+header p{color:var(--mut);margin:0}
+main{max-width:760px;margin:0 auto;padding:0 18px 60px}
+section{background:var(--surf);border-radius:22px;margin:26px 0;overflow:hidden;border:2px solid var(--line)}
+section>h2{margin:0;padding:16px 22px;font-size:28px;color:var(--ink)}
+.body{padding:8px 22px 22px}
+.s1>h2{background:#bfe3ff}.s2>h2{background:#ffc9d6}.s3>h2{background:#e4d0ff}.s4>h2{background:#ffe3b0}.s5>h2{background:#c4f2d3}.ex>h2{background:#ffd3ee}
+.ex h3{margin-top:26px;font-size:22px}
+b.t{color:var(--red)}
+ol.path{padding-left:22px}
+.pick{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0}
+.pick button,.btn{font:inherit;font-weight:700;border:2px solid var(--blue);background:var(--surf);color:var(--ink);padding:8px 14px;border-radius:12px;cursor:pointer}
+.pick button[aria-pressed="true"],.btn{background:var(--blue);color:var(--ink)}
+.btn.ghost{background:var(--surf);color:var(--ink)}
+button:focus-visible{outline:3px solid var(--sun);outline-offset:2px}
+.out{background:var(--bg);border-left:6px solid var(--sun);padding:10px 14px;border-radius:0 12px 12px 0;min-height:3.2em;margin:6px 0}
+.lungs{display:flex;align-items:center;gap:18px;flex-wrap:wrap;margin:12px 0}
+.lung{width:150px;height:110px;display:flex;gap:8px;align-items:center;justify-content:center;transition:transform 1.4s ease}
+.lung i{display:block;width:62px;height:96px;background:var(--pink);border:3px solid var(--red);border-radius:50% 50% 45% 45%}
+.lung.in{transform:scale(1.35)}
+.heart{display:grid;grid-template-columns:1fr 1fr;gap:6px;max-width:360px;margin:10px 0}
+.heart button{border:0;color:var(--ink);font:inherit;font-weight:700;padding:20px 8px;cursor:pointer;font-size:16px}
+.heart .b{background:#a9d4ff}.heart .r{background:#ffb3c6}
+.heart button[aria-pressed="true"]{outline:4px solid var(--sun);outline-offset:-4px}
+.heart .tl{border-radius:50px 6px 6px 6px}.heart .tr{border-radius:6px 50px 6px 6px}.heart .bl{border-radius:6px 6px 6px 70px}.heart .br{border-radius:6px 6px 70px 6px}
+.note{font-size:15px;color:var(--mut);margin:4px 0 10px}
+.stepper ol{list-style:none;padding:0;margin:10px 0}
+.stepper li{display:none;padding:10px 14px;margin:6px 0;border-left:6px solid var(--blue);background:var(--bg);border-radius:0 12px 12px 0}
+.stepper li.show{display:block}
+.stepper li.cur{border-color:var(--red);font-weight:600}
+.q{margin:16px 0;padding-bottom:6px}
+.q p{margin:0 0 8px;font-weight:700}
+.opt{display:block;width:100%;text-align:left;font:inherit;background:var(--surf);color:var(--ink);border:2px solid var(--line);border-radius:12px;padding:9px 14px;margin:6px 0;cursor:pointer}
+.opt:hover{border-color:var(--blue)}
+.opt.ok{background:var(--ok);border-color:var(--ok);color:var(--ink)}
+.opt.bad{background:var(--bad);border-color:var(--bad);color:var(--ink)}
+.fb{margin:4px 0 0;font-size:16px;color:var(--mut)}
+.res{font-family:'Baloo 2',sans-serif;font-size:22px;font-weight:700;margin:10px 0 0}
+.card{perspective:900px;height:170px;margin:12px 0;cursor:pointer}
+.card div{position:relative;width:100%;height:100%;transition:transform .5s;transform-style:preserve-3d}
+.card.flip div{transform:rotateY(180deg)}
+.card span{position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;border-radius:18px;display:flex;align-items:center;justify-content:center;text-align:center;padding:16px;font-weight:700;font-size:20px;border:3px solid var(--blue)}
+.card .f{background:var(--surf);font-family:'Baloo 2',sans-serif;font-size:28px}
+.card .k{background:var(--blue);color:var(--ink);transform:rotateY(180deg)}
+.fc-nav{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.zones{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:10px;margin:10px 0}
+.zones.col{grid-template-columns:1fr}
+.zone{border:3px dashed var(--line);border-radius:14px;padding:8px 10px;min-height:76px}
+.zone.hot{border-color:var(--sun);background:var(--bg)}
+.zone>b{display:block;font-family:'Baloo 2',sans-serif;font-size:18px}
+.zones.col .zone{min-height:60px;display:flex;align-items:center;gap:12px}
+.zones.col .zone>b{min-width:34px}
+.drop{display:flex;flex-wrap:wrap;gap:6px;min-height:34px;align-items:center;flex:1}
+.bank{display:flex;flex-wrap:wrap;gap:8px;padding:12px;background:var(--bg);border-radius:14px;min-height:60px;margin:10px 0}
+.chip{font-size:16px;font-weight:700;background:var(--sun);color:#14304d;padding:7px 12px;border-radius:10px;cursor:grab;user-select:none;border:2px solid transparent}
+.chip.sel{outline:3px solid var(--blue)}
+.chip.ok{background:var(--ok);color:var(--ink)}.chip.bad{background:var(--bad);color:var(--ink)}
+section{border-radius:32px}.btn,.pick button,.opt,.out{border-radius:18px}.art{float:right;width:100px;height:100px;margin:0 0 6px 12px}.hero{display:flex;gap:6px;justify-content:center;margin-bottom:8px}.hero svg{width:76px;height:76px;animation:bob 2.4s ease-in-out infinite}.hero svg:nth-child(2){animation-delay:.3s}.hero svg:nth-child(3){animation-delay:.6s}.hero svg:nth-child(4){animation-delay:.9s}@keyframes bob{50%{transform:translateY(-8px)}}header{text-align:center}.diag{display:block;width:100%;max-width:420px;margin:8px auto}.diag text{fill:var(--ink);font:700 13px Nunito,sans-serif}.toast{position:fixed;left:50%;top:22%;transform:translateX(-50%);background:var(--sun);color:var(--ink);padding:12px 26px;border-radius:99px;font-family:'Baloo 2',sans-serif;font-size:30px;font-weight:800;z-index:20;pointer-events:none;box-shadow:0 6px 0 #f5c24d}.conf{position:fixed;z-index:19;pointer-events:none}@media (prefers-reduced-motion:reduce){.hero svg{animation:none}}
+@media (prefers-reduced-motion:reduce){.lung,.card div{transition:none}html{scroll-behavior:auto}}
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+<symbol id="heart" viewBox="0 0 100 100"><path d="M50 88C8 58 12 18 36 18c9 0 14 6 14 11 0-5 5-11 14-11 24 0 28 40-14 70z" fill="#ff8fa8"/><circle cx="38" cy="45" r="5" fill="#4a3f6b"/><circle cx="62" cy="45" r="5" fill="#4a3f6b"/><path d="M40 60q10 10 20 0" stroke="#4a3f6b" stroke-width="3.5" fill="none" stroke-linecap="round"/><circle cx="30" cy="56" r="5" fill="#ffc2d1"/><circle cx="70" cy="56" r="5" fill="#ffc2d1"/></symbol>
+<symbol id="lungs" viewBox="0 0 100 100"><path d="M50 8v34M50 40l-14 10M50 40l14 10" stroke="#f3b4c4" stroke-width="7" stroke-linecap="round" fill="none"/><ellipse cx="29" cy="64" rx="22" ry="30" fill="#ffb3c6"/><ellipse cx="71" cy="64" rx="22" ry="30" fill="#ffb3c6"/><circle cx="25" cy="60" r="4" fill="#4a3f6b"/><circle cx="75" cy="60" r="4" fill="#4a3f6b"/><path d="M22 72q7 7 14 0M64 72q7 7 14 0" stroke="#4a3f6b" stroke-width="3" fill="none" stroke-linecap="round"/></symbol>
+<symbol id="drop" viewBox="0 0 100 100"><path d="M50 8C50 8 20 46 20 66a30 30 0 0 0 60 0C80 46 50 8 50 8z" fill="#ff8fa8"/><circle cx="40" cy="64" r="4.5" fill="#4a3f6b"/><circle cx="60" cy="64" r="4.5" fill="#4a3f6b"/><path d="M42 76q8 7 16 0" stroke="#4a3f6b" stroke-width="3" fill="none" stroke-linecap="round"/></symbol>
+<symbol id="kid" viewBox="0 0 100 100"><path d="M30 15C8 20 6 62 28 84c14 12 36 4 40-14 3-14-14-18-10-34 3-12 4-24-28-21z" fill="#e8a0bf"/><circle cx="28" cy="48" r="4.5" fill="#4a3f6b"/><circle cx="44" cy="48" r="4.5" fill="#4a3f6b"/><path d="M28 62q8 7 16 0" stroke="#4a3f6b" stroke-width="3" fill="none" stroke-linecap="round"/></symbol>
+<symbol id="apple" viewBox="0 0 100 100"><path d="M50 30C30 14 8 30 14 58c5 22 20 34 36 28 16 6 31-6 36-28C92 30 70 14 50 30z" fill="#ff9aa2"/><path d="M50 30c0-10 4-16 12-20" stroke="#8a6b4a" stroke-width="5" fill="none" stroke-linecap="round"/><path d="M58 18c8-8 18-4 18-4s-2 12-14 10z" fill="#9be3b5"/><circle cx="38" cy="58" r="4.5" fill="#4a3f6b"/><circle cx="62" cy="58" r="4.5" fill="#4a3f6b"/><path d="M42 70q8 7 16 0" stroke="#4a3f6b" stroke-width="3" fill="none" stroke-linecap="round"/></symbol>
+</defs></svg>
+<nav>
+<a href="#resp">Respirar</a><a href="#circ">Corazón</a><a href="#sangre">Sangre</a><a href="#excr">Excreción</a><a href="#salud">Salud</a><a href="#e1">Ejercicios</a>
+</nav>
+<header>
+<div class="hero" aria-hidden="true"><svg viewBox="0 0 100 100"><use href="#lungs"/></svg><svg viewBox="0 0 100 100"><use href="#heart"/></svg><svg viewBox="0 0 100 100"><use href="#drop"/></svg><svg viewBox="0 0 100 100"><use href="#kid"/></svg></div>
+<h1>Respirar, circular y limpiar el cuerpo</h1>
+<p>¡Vamos a descubrir cómo funciona tu cuerpo! Lee, toca los botones y juega con los 6 ejercicios del final.</p>
+</header>
+<main>
+
+<section class="s1" id="resp"><h2>1. Necesitamos respirar</h2><div class="body">
+<svg class="art" viewBox="0 0 100 100" aria-hidden="true"><use href="#lungs"/></svg><p>La respiración nos da <b class="t">oxígeno</b> del aire y elimina el <b class="t">dióxido de carbono</b>. Las células necesitan oxígeno para tener energía.</p>
+<h3>Las vías respiratorias</h3>
+<p>Son los conductos por los que viaja el aire, en este orden:</p>
+<ol class="path">
+<li><b>Nariz</b>: dentro tiene dos agujeros, las fosas nasales.</li>
+<li><b>Faringe</b>: conducto por el que pasan el aire y la comida.</li>
+<li><b>Laringe</b>: tiene las cuerdas vocales, que vibran y producen la voz.</li>
+<li><b>Tráquea</b>: tubo formado por anillos.</li>
+<li><b>Bronquios</b>: la tráquea se divide en 2 bronquios que entran en los pulmones.</li>
+</ol>
+<h3>Los pulmones</h3>
+<p>Son 2 órganos esponjosos de color rosado. Están en el tórax, dentro de la caja torácica (costillas, esternón y columna vertebral). Por dentro tienen muchos bronquiolos y, al final, los alveolos.</p>
+<h3>Inspirar y espirar</h3>
+<p>Los movimientos respiratorios son dos. Pulsa el botón y mira qué le pasa a los pulmones.</p>
+<div class="lungs">
+<div class="lung" id="lung"><i></i><i></i></div>
+<div><button class="btn" id="breath">Inspirar</button>
+<p class="out" id="breathTxt" aria-live="polite">Pulsa el botón para empezar.</p></div>
+</div>
+<p>Para respirar trabajan el <b>diafragma</b>, los <b>músculos intercostales</b> y los del <b>abdomen</b>.</p>
+<h3>El intercambio de gases</h3>
+<p>El aire llega por las vías respiratorias hasta los alveolos. Allí el <b>oxígeno pasa a la sangre</b> y el <b>dióxido de carbono pasa de la sangre al alveolo</b>. Al espirar, ese gas sale al exterior.</p>
+</div></section>
+
+<section class="s2" id="circ"><h2>2. El aparato circulatorio</h2><div class="body">
+<svg class="art" viewBox="0 0 100 100" aria-hidden="true"><use href="#heart"/></svg><p>Está formado por el <b>corazón</b>, los <b>vasos sanguíneos</b> y la <b>sangre</b>. Su función es transportar nutrientes y oxígeno a todo el cuerpo y recoger los desechos que hay que eliminar.</p>
+<h3>El corazón</h3>
+<p>Es un músculo que está en la caja torácica, entre los pulmones. Se contrae y se relaja para impulsar la sangre. Toca cada parte:</p>
+<div class="pick" data-for="heartOut" style="display:none"></div>
+<div class="heart" id="heart">
+<button class="b tl" data-t="Aurícula derecha: recibe por las venas cavas la sangre con dióxido de carbono de todo el cuerpo.">Aurícula derecha</button>
+<button class="r tr" data-t="Aurícula izquierda: recibe por las venas pulmonares la sangre con oxígeno que viene de los pulmones.">Aurícula izquierda</button>
+<button class="b bl" data-t="Ventrículo derecho: bombea la sangre hacia los pulmones por la arteria pulmonar.">Ventrículo derecho</button>
+<button class="r br" data-t="Ventrículo izquierdo: bombea la sangre con oxígeno al cuerpo por la arteria aorta.">Ventrículo izquierdo</button>
+</div>
+<p class="note">Azul: sangre con dióxido de carbono. Rojo: sangre con oxígeno. Mira el corazón de frente: su parte derecha queda a la izquierda del dibujo.</p>
+<p class="out" id="heartOut" aria-live="polite">Toca una parte del corazón.</p>
+<h3>Los vasos sanguíneos</h3>
+<div class="pick" data-out="vasOut">
+<button data-t="Arterias: llevan la sangre desde el corazón a todo el cuerpo. Salen de los ventrículos.">Arterias</button>
+<button data-t="Venas: llevan la sangre desde todo el cuerpo hacia el corazón. Llegan a las aurículas.">Venas</button>
+<button data-t="Capilares: son vasos muy finos que están entre las arterias y las venas. Allí la sangre cede oxígeno y nutrientes a las células.">Capilares</button>
+</div>
+<p class="out" id="vasOut" aria-live="polite">Elige un tipo de vaso.</p>
+
+<h3>La circulación de la sangre</h3>
+<svg class="diag" viewBox="0 0 320 180" role="img" aria-label="La sangre va del corazón a los pulmones y del corazón al cuerpo"><g fill="none" stroke-width="6" stroke-linecap="round"><path d="M128 78C105 40 85 48 70 66" stroke="#8ec9f2"/><path d="M68 100C85 128 110 128 128 106" stroke="#ff8fa8"/><path d="M192 78C215 40 235 48 250 66" stroke="#ff8fa8"/><path d="M252 100C235 128 210 128 192 106" stroke="#8ec9f2"/></g><use href="#lungs" x="8" y="52" width="64" height="64"/><use href="#heart" x="130" y="62" width="60" height="60"/><text x="262" y="100" style="font-size:46px">🧒</text><text x="40" y="145" text-anchor="middle">pulmones</text><text x="160" y="145" text-anchor="middle">corazón</text><text x="280" y="145" text-anchor="middle">cuerpo</text><text x="100" y="22" text-anchor="middle">circulación pulmonar</text><text x="222" y="22" text-anchor="middle">circulación general</text><text x="160" y="170" text-anchor="middle" style="font-size:12px">azul: sin oxígeno · rosa: con oxígeno</text></svg>
+<p>Cuando el corazón late, impulsa la sangre por dos circuitos conectados entre sí.</p>
+<h3 style="font-size:19px">Circulación pulmonar: del corazón a los pulmones</h3>
+<div class="stepper" data-n="5">
+<ol>
+<li>La sangre con dióxido de carbono llega a la aurícula derecha y pasa al ventrículo derecho.</li>
+<li>El ventrículo derecho la bombea hacia la arteria pulmonar.</li>
+<li>La sangre recorre las arterias pulmonares y llega a los pulmones.</li>
+<li>En los pulmones se produce el intercambio gaseoso.</li>
+<li>La sangre con oxígeno vuelve por las venas pulmonares a la aurícula izquierda.</li>
+</ol>
+<button class="btn">Siguiente paso</button>
+</div>
+<h3 style="font-size:19px">Circulación general: del corazón al resto del cuerpo</h3>
+<div class="stepper">
+<ol>
+<li>La sangre rica en oxígeno pasa de la aurícula izquierda al ventrículo izquierdo.</li>
+<li>Desde el ventrículo izquierdo se bombea hacia la arteria aorta.</li>
+<li>La aorta reparte la sangre por arterias cada vez más pequeñas hasta los capilares de todo el cuerpo.</li>
+<li>En los capilares la sangre cede oxígeno y nutrientes y recoge dióxido de carbono y desechos.</li>
+<li>Pasa a las venas, que se unen formando venas cada vez más grandes. Las venas cavas llegan a la aurícula derecha.</li>
+</ol>
+<button class="btn">Siguiente paso</button>
+</div>
+</div></section>
+
+<section class="s3" id="sangre"><h2>3. La sangre</h2><div class="body">
+<svg class="art" viewBox="0 0 100 100" aria-hidden="true"><use href="#drop"/></svg><p>Es un líquido rojo que circula por todo el cuerpo. Está formada por el <b>plasma</b> y las <b>células sanguíneas</b>.</p>
+<div class="pick" data-out="bloodOut">
+<button data-t="Plasma: es la parte líquida (55 % de la sangre). Contiene agua y lleva nutrientes y dióxido de carbono.">Plasma</button>
+<button data-t="Glóbulos rojos (eritrocitos): tienen forma de disco, son flexibles y llevan el oxígeno. Son el 44 % de la sangre.">Glóbulos rojos</button>
+<button data-t="Glóbulos blancos (leucocitos): células que nos defienden de las bacterias y los virus que nos enferman.">Glóbulos blancos</button>
+<button data-t="Plaquetas: son partes de células. Tapan los vasos sanguíneos cuando hay una herida.">Plaquetas</button>
+</div>
+<p class="out" id="bloodOut" aria-live="polite">Toca un componente de la sangre.</p>
+<p class="note">Los glóbulos blancos y las plaquetas juntos son solo el 1 %.</p>
+</div></section>
+
+<section class="s4" id="excr"><h2>4. La excreción</h2><div class="body">
+<svg class="art" viewBox="0 0 100 100" aria-hidden="true"><use href="#kid"/></svg><p>Excretar es eliminar las sustancias de desecho. El <b>aparato urinario</b> es el principal: los <b>riñones</b> filtran la sangre y producen orina, que baja por los <b>uréteres</b> hasta la <b>vejiga</b> y sale por la <b>uretra</b>.</p>
+<h3>Otras formas de excreción</h3>
+<div class="pick" data-out="excOut">
+<button data-t="La piel: las glándulas sudoríparas producen el sudor (sobre todo agua, con sales y desechos). Sirve sobre todo para regular la temperatura.">La piel</button>
+<button data-t="El aparato respiratorio: elimina el dióxido de carbono al espirar.">Aparato respiratorio</button>
+<button data-t="El hígado: además de producir bilis, elimina algunas sustancias (fármacos, alcohol y restos de los eritrocitos), que salen en las heces.">El hígado</button>
+</div>
+<p class="out" id="excOut" aria-live="polite">Elige una forma de excreción.</p>
+</div></section>
+
+<section class="s5" id="salud"><h2>5. La salud de los órganos de la nutrición</h2><div class="body">
+<svg class="art" viewBox="0 0 100 100" aria-hidden="true"><use href="#apple"/></svg><p>Los <b>hábitos saludables</b> ayudan a prevenir muchas enfermedades.</p>
+<div class="pick" data-out="healthOut">
+<button data-t="Actividad física: caminar, ir en bici o practicar deporte cuida el corazón y los vasos sanguíneos. Hacerlo en espacios naturales te da aire más limpio.">Actividad física</button>
+<button data-t="Alimentación saludable: beber agua hidrata las vías respiratorias y favorece la formación de orina. Menos grasas animales y menos sal cuidan arterias, corazón y riñones.">Alimentación</button>
+<button data-t="Ventilar: renovar el aire reduce las sustancias nocivas y los microorganismos que respiramos.">Ventilar</button>
+<button data-t="Reducir el estrés: aprender a relajarse y a gestionar situaciones difíciles protege el corazón.">Relajarse</button>
+<button data-t="Higiene: cepillarse los dientes, lavarse las manos y conservar bien los alimentos evita caries y trastornos digestivos.">Higiene</button>
+</div>
+<p class="out" id="healthOut" aria-live="polite">Toca un hábito saludable.</p>
+<h3>Hábitos tóxicos que hay que evitar</h3>
+<p>Las <b>drogas</b> son sustancias que actúan en el cerebro y lo alteran. El <b>tabaco</b> y el <b>alcohol</b> son drogas legales, pero provocan enfermedades muy graves.</p>
+<div class="pick" data-out="toxOut">
+<button data-t="Tabaco: su humo tiene miles de sustancias tóxicas (nicotina, alquitrán, monóxido de carbono). Irrita las vías respiratorias y los pulmones y puede causar cáncer de pulmón.">Tabaco</button>
+<button data-t="Alcohol: deteriora muchos órganos (hígado, corazón…), llega al cerebro y favorece conductas que ponen en peligro nuestra vida o la de otros.">Alcohol</button>
+<button data-t="Otras drogas (cocaína, heroína, éxtasis, cannabis…): son ilegales y muy perjudiciales. Producen adicción, una necesidad incontrolable de consumirlas a pesar de los problemas que causan.">Otras drogas</button>
+</div>
+<p class="out" id="toxOut" aria-live="polite">Toca una droga para saber más.</p>
+</div></section>
+
+<section class="ex" id="e1"><h2>Ejercicios</h2><div class="body">
+<p>Haz los 6. En los de arrastrar, si usas el móvil: toca una ficha y luego toca el hueco donde va.</p>
+<h3>1. Test: la respiración</h3><div class="quiz" data-q="t1"><p class="res"></p></div>
+<h3>2. Test: corazón y sangre</h3><div class="quiz" data-q="t2"><p class="res"></p></div>
+<h3>3. Tarjetas: toca para dar la vuelta</h3>
+<div class="card" id="card" tabindex="0" role="button" aria-label="Dar la vuelta a la tarjeta"><div><span class="f"></span><span class="k"></span></div></div>
+<div class="fc-nav"><button class="btn ghost" id="prev">Anterior</button><button class="btn" id="next">Siguiente</button><span id="cnt"></span></div>
+<h3>4. Ordena el camino del aire</h3>
+<p>Arrastra cada parte a su lugar, desde que el aire entra hasta que llega a los pulmones.</p>
+<div class="dnd" data-d="d1"></div>
+<h3>5. Arterias, venas o capilares</h3>
+<p>Arrastra cada frase al tipo de vaso sanguíneo correcto.</p>
+<div class="dnd" data-d="d2"></div>
+<h3>6. ¿Quién excreta?</h3>
+<p>Arrastra cada ficha a la parte del cuerpo que la produce o la elimina.</p>
+<div class="dnd" data-d="d3"></div>
+</div></section>
+</main>
+
+
+<script>
+function $(s,r){return (r||document).querySelector(s)}
+function shuf(a){a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
+
+// Fiesta
+function party(big,el){
+  var em=['🎉','⭐','🎈','🌈','💖','🦄','🍭','🌸'],n=big?70:16,i;
+  var t=document.createElement('div');t.className='toast';t.textContent=big?'¡Bravo, eres una crack! 🎉':'¡Muy bien! ⭐';document.body.appendChild(t);
+  setTimeout(function(){t.remove()},big?2400:1000);
+  if(window.matchMedia('(prefers-reduced-motion:reduce)').matches||!document.body.animate)return;
+  var r=el?el.getBoundingClientRect():{left:innerWidth/2,top:innerHeight/2,width:0,height:0};
+  var ox=r.left+r.width/2,oy=r.top+r.height/2;
+  for(i=0;i<n;i++){
+    var s=document.createElement('span');s.className='conf';s.textContent=em[i%em.length];
+    s.style.left=ox+'px';s.style.top=oy+'px';s.style.fontSize=(18+Math.random()*20)+'px';document.body.appendChild(s);
+    var a=Math.random()*Math.PI*2,d=80+Math.random()*(big?320:150),x=Math.cos(a)*d,y=Math.sin(a)*d;
+    s.animate([{transform:'translate(0,0) scale(.4)',opacity:1},{transform:'translate('+x+'px,'+(y-60)+'px) scale(1)',opacity:1,offset:.6},{transform:'translate('+x+'px,'+(y+220)+'px) scale(1)',opacity:0}],{duration:1400+Math.random()*600,easing:'ease-out'}).onfinish=(function(q){return function(){q.remove()}})(s);
+  }
+}
+// Inspirar / espirar
+var inh=false;
+$('#breath').onclick=function(){
+  inh=!inh;
+  $('#lung').classList.toggle('in',inh);
+  this.textContent=inh?'Espirar':'Inspirar';
+  $('#breathTxt').textContent=inh
+    ?'Inspiración: el aire entra. La caja torácica se expande y los pulmones también.'
+    :'Espiración: el aire sale. El espacio de la caja torácica se reduce y los pulmones se comprimen.';
+};
+
+// Botones que muestran texto
+document.querySelectorAll('.pick[data-out]').forEach(function(g){
+  var out=document.getElementById(g.dataset.out);
+  g.querySelectorAll('button').forEach(function(b){
+    b.onclick=function(){g.querySelectorAll('button').forEach(function(x){x.setAttribute('aria-pressed','false')});b.setAttribute('aria-pressed','true');out.textContent=b.dataset.t}
+  });
+});
+document.querySelectorAll('#heart button').forEach(function(b){
+  b.onclick=function(){document.querySelectorAll('#heart button').forEach(function(x){x.setAttribute('aria-pressed','false')});b.setAttribute('aria-pressed','true');$('#heartOut').textContent=b.dataset.t}
+});
+
+// Pasos
+document.querySelectorAll('.stepper').forEach(function(s){
+  var li=s.querySelectorAll('li'),n=0,btn=$('button',s);
+  btn.onclick=function(){
+    if(n>=li.length){n=0;li.forEach(function(x){x.className=''});btn.textContent='Siguiente paso';return}
+    li.forEach(function(x){x.classList.remove('cur')});
+    li[n].classList.add('show','cur');n++;
+    btn.textContent=n>=li.length?'Volver a empezar':'Siguiente paso';
+  };
+});
+
+// Tests
+var Q={
+t1:[
+['¿Para qué respiramos?',['Para obtener oxígeno y eliminar dióxido de carbono','Para obtener nutrientes y agua','Para fabricar sangre'],'La respiración nos da oxígeno y elimina dióxido de carbono.'],
+['¿Qué parte de las vías respiratorias tiene las cuerdas vocales?',['La faringe','La laringe','La tráquea'],'La laringe tiene las cuerdas vocales, que vibran y producen la voz.'],
+['¿Qué pasa al inspirar?',['Los pulmones se comprimen','La caja torácica se expande y entra aire','El aire sale de los pulmones'],'Al inspirar la caja torácica y los pulmones se expanden.'],
+['¿Dónde se intercambian el oxígeno y el dióxido de carbono?',['En los alveolos pulmonares','En la tráquea','En la nariz'],'El intercambio de gases ocurre en los alveolos, junto a los capilares.']
+],
+t2:[
+['¿Qué vasos llevan la sangre desde el corazón a todo el cuerpo?',['Las venas','Las arterias','Los capilares'],'Las arterias salen de los ventrículos.'],
+['¿Qué células nos defienden de bacterias y virus?',['Los glóbulos blancos','Los glóbulos rojos','Las plaquetas'],'Los glóbulos blancos o leucocitos nos defienden.'],
+['¿Cuál es el componente principal de la sangre?',['Los glóbulos rojos','Las plaquetas','El plasma'],'El plasma es el 55 % de la sangre.'],
+['La sangre con oxígeno que viene de los pulmones llega a…',['la aurícula izquierda','la aurícula derecha','el ventrículo derecho'],'Vuelve por las venas pulmonares a la aurícula izquierda.']
+]};
+// la primera opción de cada pregunta es la correcta (se barajan al pintar), salvo las que indican lo contrario
+var ANS={t1:[0,1,1,0],t2:[1,0,2,0]};
+document.querySelectorAll('.quiz').forEach(function(el){
+  var key=el.dataset.q,qs=Q[key],res=$('.res',el),ok=0,done=0;
+  qs.forEach(function(q,qi){
+    var d=document.createElement('div');d.className='q';
+    var p=document.createElement('p');p.textContent=q[0];d.appendChild(p);
+    var fb=document.createElement('p');fb.className='fb';
+    var opts=q[1].map(function(t,i){return {t:t,r:i===ANS[key][qi]}});
+    shuf(opts).forEach(function(o){
+      var b=document.createElement('button');b.className='opt';b.textContent=o.t;
+      b.onclick=function(){
+        if(d.dataset.done)return;d.dataset.done=1;
+        d.querySelectorAll('.opt').forEach(function(x,i){});
+        if(o.r){b.classList.add('ok');ok++;fb.textContent='¡Correcto! '+q[2];party(false,b)}
+        else{b.classList.add('bad');d.querySelectorAll('.opt').forEach(function(x){if(x.textContent===opts.filter(function(y){return y.r})[0].t)x.classList.add('ok')});fb.textContent='Casi. '+q[2]}
+        done++;
+        if(done===qs.length){res.textContent='Has acertado '+ok+' de '+qs.length+(ok===qs.length?' ⭐ ¡Perfecto!':'. Repasa y vuelve a intentarlo.');if(ok===qs.length)setTimeout(function(){party(true)},700)}
+      };
+      d.appendChild(b);
+    });
+    d.appendChild(fb);el.insertBefore(d,res);
+  });
+});
+
+// Tarjetas
+var C=[['Oxígeno','Gas del aire que las células necesitan para tener energía.'],['Laringe','Tiene las cuerdas vocales, que producen la voz.'],['Alveolos','Allí se intercambian el oxígeno y el dióxido de carbono.'],['Diafragma','Músculo que ayuda a respirar.'],['Corazón','Músculo entre los pulmones que impulsa la sangre.'],['Arterias','Llevan la sangre del corazón al cuerpo. Salen de los ventrículos.'],['Venas','Llevan la sangre del cuerpo al corazón. Llegan a las aurículas.'],['Plasma','Parte líquida de la sangre: agua, nutrientes y dióxido de carbono.'],['Glóbulos rojos','Tienen forma de disco y llevan el oxígeno.'],['Plaquetas','Tapan los vasos sanguíneos cuando hay una herida.'],['Riñones','Filtran la sangre y producen la orina.'],['Glándulas sudoríparas','Están en la piel y producen el sudor.']];
+var ci=0;
+function showCard(){var c=$('#card');c.classList.remove('flip');$('.f',c).textContent=C[ci][0];$('.k',c).textContent=C[ci][1];$('#cnt').textContent=(ci+1)+' / '+C.length}
+$('#card').onclick=function(){this.classList.toggle('flip')};
+$('#card').onkeydown=function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();this.classList.toggle('flip')}};
+$('#next').onclick=function(){ci=(ci+1)%C.length;showCard()};
+$('#prev').onclick=function(){ci=(ci+C.length-1)%C.length;showCard()};
+showCard();
+
+// Arrastrar y soltar
+var D={
+d1:{one:1,col:1,zones:[['nariz','1.º'],['faringe','2.º'],['laringe','3.º'],['tráquea','4.º'],['bronquios','5.º']],chips:[['nariz','Nariz'],['faringe','Faringe'],['laringe','Laringe'],['tráquea','Tráquea'],['bronquios','Bronquios']]},
+d2:{zones:[['arterias','Arterias'],['venas','Venas'],['capilares','Capilares']],chips:[['arterias','Salen de los ventrículos'],['venas','Llegan a las aurículas'],['capilares','Son muy finos y están entre arterias y venas'],['venas','Llevan la sangre del cuerpo al corazón'],['arterias','Llevan la sangre del corazón al cuerpo'],['capilares','Ceden oxígeno a las células']]},
+d3:{zones:[['piel','La piel'],['resp','Aparato respiratorio'],['urinario','Aparato urinario'],['higado','El hígado']],chips:[['piel','Sudor'],['resp','Dióxido de carbono'],['urinario','Orina'],['urinario','Riñones'],['piel','Glándulas sudoríparas'],['higado','Restos de eritrocitos'],['resp','Espiración'],['urinario','Vejiga']]}
+};
+var dragged=null;
+document.querySelectorAll('.dnd').forEach(function(el){
+  var cfg=D[el.dataset.d],sel=null;
+  var zw=document.createElement('div');zw.className='zones'+(cfg.col?' col':'');
+  var bank=document.createElement('div');bank.className='bank';
+  var chk=document.createElement('button');chk.className='btn';chk.textContent='Comprobar';
+  var rst=document.createElement('button');rst.className='btn ghost';rst.textContent='Empezar de nuevo';rst.style.marginLeft='8px';
+  var res=document.createElement('p');res.className='res';
+  cfg.zones.forEach(function(z){
+    var zn=document.createElement('div');zn.className='zone';zn.dataset.k=z[0];
+    zn.innerHTML='<b>'+z[1]+'</b><div class="drop"></div>';
+    zn.ondragover=function(e){e.preventDefault();zn.classList.add('hot')};
+    zn.ondragleave=function(){zn.classList.remove('hot')};
+    zn.ondrop=function(e){e.preventDefault();zn.classList.remove('hot');if(dragged)put(dragged,zn)};
+    zn.onclick=function(e){if(sel&&e.target.className.indexOf('chip')<0){put(sel,zn)}};
+    zw.appendChild(zn);
+  });
+  bank.ondragover=function(e){e.preventDefault()};
+  bank.ondrop=function(e){e.preventDefault();if(dragged)back(dragged)};
+  function clean(c){c.classList.remove('ok','bad','sel');}
+  function back(c){clean(c);bank.appendChild(c);sel=null}
+  function put(c,zn){
+    var dr=$('.drop',zn);
+    if(cfg.one&&dr.children.length&&dr.children[0]!==c)back(dr.children[0]);
+    clean(c);dr.appendChild(c);sel=null;res.textContent='';
+  }
+  function build(){
+    zw.querySelectorAll('.chip').forEach(function(c){c.remove()});
+    bank.innerHTML='';res.textContent='';sel=null;
+    shuf(cfg.chips).forEach(function(ch){
+      var c=document.createElement('span');c.className='chip';c.textContent=ch[1];c.dataset.k=ch[0];c.draggable=true;
+      c.ondragstart=function(){dragged=c;clean(c)};
+      c.ondragend=function(){dragged=null};
+      c.onclick=function(e){
+        e.stopPropagation();
+        if(c.parentNode!==bank){back(c);return}
+        if(sel===c){clean(c);sel=null;return}
+        if(sel)clean(sel);sel=c;c.classList.add('sel');
+      };
+      bank.appendChild(c);
+    });
+  }
+  chk.onclick=function(){
+    var all=el.querySelectorAll('.chip'),ok=0;
+    all.forEach(function(c){
+      clean(c);
+      var z=c.closest('.zone');
+      if(z){if(z.dataset.k===c.dataset.k){c.classList.add('ok');ok++}else c.classList.add('bad')}
+    });
+    var n=cfg.chips.length;
+    if(ok===n){res.textContent='¡Todo correcto! ⭐';party(true,chk)}
+    else if(bank.children.length)res.textContent='Llevas '+ok+' bien. Aún quedan fichas por colocar.';
+    else res.textContent='Llevas '+ok+' de '+n+'. Toca las fichas rojas para sacarlas y prueba otra vez.';
+  };
+  rst.onclick=build;
+  el.append(zw,bank,chk,rst,res);
+  build();
+});
+</script>
+</body>
+</html>
